@@ -54,7 +54,7 @@ PROJECT_OBJS += $(PROJECT).coe
 #############################################################
 
 #MCUFLAGS	+= -march=armv6-m
-MCUFLAGS	+= -mcpu=cortex-m0
+MCUFLAGS	+= -mcpu=cortex-m1
 
 LDFLAGS		+= -T$(LD_SCRIPT)
 LDFLAGS		+= --specs=nosys.specs
