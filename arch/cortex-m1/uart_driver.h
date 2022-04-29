@@ -16,5 +16,8 @@
 // SIMPLE TEST R/W TO SHARED MEMORY
 int uartlite_putchar(char);
 
+inline int __io_putchar(int ch) {
+    return uartlite_putchar(ch);
+}
 
 #endif /*UART_DRIVER_H*/

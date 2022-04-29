@@ -31,7 +31,7 @@ ASM_SRCS 	+= arch/cortex-m1/boot.S
 ASM_SRCS 	+= tee/tee_isr.S
 
 #C_SRCS	 	+= tee/tee_isr.c
-C_SRCS	 	+= arch/cortex-m1/newlib.c
+C_SRCS	 	+= arch/cortex-m1/syscalls.c
 C_SRCS	 	+= arch/cortex-m1/uart_driver.c
 C_SRCS	 	+= arch/cortex-m1/system.c
 
@@ -56,12 +56,14 @@ PROJECT_OBJS += $(PROJECT).coe
 #MCUFLAGS	+= -march=armv6-m
 MCUFLAGS	+= -mcpu=cortex-m0
 
-LDFLAGS		+= -T $(LD_SCRIPT)
-LDFLAGS 	+= -static $(MCUFLAGS)
-LDFLAGS		+= -mthumb
-LDFLAGS 	+= -nostartfiles
+LDFLAGS		+= -T$(LD_SCRIPT)
 LDFLAGS		+= --specs=nosys.specs
-LDFLAGS 	+= --gc-sections
+LDFLAGS 	+= -Wl,--gc-sections -static
+LDFLAGS 	+= --specs=nano.specs 
+LDFLAGS 	+= -mfloat-abi=soft
+LDFLAGS 	+= -mthumb
+LDFLAGS 	+=  -Wl,--start-group -lc -lm -Wl,--end-group
+
 
 #arm-none-eabi-gcc hello.c -mthumb -mcpu=cortex-m0  -Os  -ffunction-sections -fdata-sections  -Wl,--gc-sections -Wl,-Map=hello.map -o hello-CM0.axf
 
@@ -94,19 +96,26 @@ debug: $(PROJECT).elf
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(PROJECT).elf: $(OBJECTS) $(LINK_DEPS) Makefile
-	arm-none-eabi-gcc -o $@ $(OBJECTS) $(LIBS) -mcpu=cortex-m0 -T$(LD_SCRIPT) --specs=nosys.specs -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
-	@echo 'Finished building target: $@'
+#	arm-none-eabi-gcc -o $@ $(OBJECTS) $(LIBS) -mcpu=cortex-m0 -T$(LD_SCRIPT) --specs=nosys.specs -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
 	@echo ' '
-#	$(CC) $(OBJECTS) $(LDFLAGS) -o $@
+	@echo 'Finished building target: $@'
 
 %.hex: %.elf
-	$(OBJCOPY) -O ihex $< $@
+	@$(OBJCOPY) -O ihex $< $@
+	@echo 'Finished building hexfile: $@'
 
 %.bin: %.elf
-	$(OBJCOPY) -O binary $< $@
+	@$(OBJCOPY) -O binary $< $@
+	@echo 'Finished building binary: $@'
+
 
 %.lst: %.elf
-	$(OBJDUMP) --all-headers --demangle --disassemble --file-headers --wide -D $< > $@
+	@$(OBJDUMP) --all-headers --demangle --disassemble --file-headers --wide -D $< > $@
+	@echo 'Finished building lstfile: $@'
+
 
 %.coe: %.bin
-	python3 tools/bintocoe.py $< $@ 
+	@python3 tools/bintocoe.py $< $@ 
+	@echo 'Finished building memfile: $@'
+

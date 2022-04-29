@@ -9,12 +9,11 @@
 #include <sys/times.h>
 
 #include "platform.h"
-#include "uart_driver.h"
 
 
 /* Variables */
-//extern int uartlite_putchar(int ch) __attribute__((weak));
-//extern int __io_getchar(void) __attribute__((weak));
+extern int __io_putchar(int ch) __attribute__((weak));
+extern int __io_getchar(void) __attribute__((weak));
 
 
 char *__env[1] = { 0 };
@@ -61,7 +60,7 @@ __attribute__((weak)) int _write(int file, char *ptr, int len)
 
 	for (DataIdx = 0; DataIdx < len; DataIdx++)
 	{
-     uartlite_putchar(*ptr++) ;  // Your low-level output function here.
+     __io_putchar(*ptr++) ;  // Your low-level output function here.
 	}
 	return len;
 }

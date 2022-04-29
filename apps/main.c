@@ -27,7 +27,7 @@ static void write32(uintptr_t Addr, uint32_t Value)
 int main(void)
 {
 	int fd_dummy = 0;
-	int result = printf("c\n");
+	int result = printf("c");
 
 	while (1)
 	{

@@ -1,9 +1,11 @@
+#include "system.h"
+#include "stdio.h"
+
 void SystemInit(void)
 {
-  /* NOTE :SystemInit(): This function is called at startup just after reset and 
-                         before branch to main program. This call is made inside
-                         the "startup_stm32f0xx.s" file.
+  /* NOTE :SystemInit(): 
                          User can setups the default system clock (System clock source, PLL Multiplier
                          and Divider factors, AHB/APBx prescalers and Flash settings).
    */
+    setvbuf(stdout, NULL, _IONBF, 0); // disable buffering stdout, needed so that enters to _write
 }
