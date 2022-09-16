@@ -3,6 +3,10 @@
 
 #define REGSIZE 4
 
+
+#define TEE_IRQn           0
+#define TEE_INT_Msk       (1UL << ((TEE_IRQn) & 0x1FUL))
+
 // Addrs for TEE
 #define TEE_MSG_ADDR		        0x44A00000;
 

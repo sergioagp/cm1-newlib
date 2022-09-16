@@ -4,6 +4,7 @@
 //#include "common.h"
 
 #include "tee_defines.h"
+#include "core.h"
 
 # Make sure that the GNU assembler is using a modern syntax for Arm THUMB.
 .syntax unified
@@ -20,6 +21,15 @@
 
 # -------------------------------------------------------------
 .align 2
+.global         __tee_setup
+.type           __tee_setup, %function
+__tee_setup:
+	push    {lr}
+    ldr     r0, =NVIC_ISER_BASE
+    ldr     r1, =TEE_INT_Msk
+    str     r1, [r0]
+    pop     {pc}
+
 .global         tee_interrupt_handler
 .type           tee_interrupt_handler, %function
 tee_interrupt_handler:

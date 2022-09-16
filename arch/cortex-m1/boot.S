@@ -90,6 +90,8 @@ LoopFillZerobss:
   bl  SystemInit
 /* Call static constructors */
   bl __libc_init_array
+/* enable the TEE intr */
+  bl __tee_setup
 /* Call the application's entry point.*/
   bl main
 
