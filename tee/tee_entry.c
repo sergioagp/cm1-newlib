@@ -11,8 +11,12 @@ uint32_t __tee_entry()
 {
 	uint32_t rv;// = TEE_SMC_RETURN_OK;
 
-	printf("_tee_entry_std\n\r");
-
+	printf("_tee_entry\n\r");
+	printf("received data\n\r");
+	for(int i=0;i<32;i++) {
+		*((volatile uint32_t *) TEE_MSG_ADDR+i) |= 0xBB000000;
+	}
+	printf("changing data\n\rdone! \n\r");
 	/* Enable foreign interrupts for STD calls */
 	//thread_set_foreign_intr(true);
 	// switch (arg->cmd) {

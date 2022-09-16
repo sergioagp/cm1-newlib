@@ -8,7 +8,7 @@
 #define TEE_INT_Msk       (1UL << ((TEE_IRQn) & 0x1FUL))
 
 // Addrs for TEE
-#define TEE_MSG_ADDR		        0x44A00000;
+#define TEE_MSG_ADDR		        0x44A00000
 
 // Relative ADDR for the teeod_msg_arg parameters
 #define TEE_MSG_ARG_CMD_ADDR		    (TEE_MSG_ADDR + REGSIZE*0x00)

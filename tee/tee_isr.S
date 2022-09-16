@@ -41,6 +41,6 @@ tee_interrupt_handler:
     bl      __tee_entry
     // validate DONE before go back to idle
     ldr     r0, =ASM_TEE_MSG_ARG_DONE_ADDR
-    ldr     r1, =1
+    ldr     r1, =0xBEEF
     str     r1, [r0]         
     pop     {pc}
