@@ -27,10 +27,8 @@ static void write32(uintptr_t Addr, uint32_t Value)
 int main(void)
 {
 	int fd_dummy = 0;
-	int result = printf("Hello world with printf\n");
-
-	char *  test_malloc = (char *) malloc(64);
-	char *  test_malloc2 = (char *) malloc(64);
+	printf("\r\n***\r\nHello world from enclave 0\r\n");
+	printf("waiting for the interrupt...\r\n");
 	while (1)
 	{
 	}
